@@ -1,65 +1,53 @@
-# COVID-19 Prediction AI System
+# COVID-19 Risk Prediction Using Patient-Reported Data and Causal Analysis
 
 ## About the Project
-This project implements a complete **COVID-19 diagnostic AI system** 
-using the COVIDCARE dataset from MIT. It builds an intelligent 
-Bayesian network to predict the probability of a patient testing 
-positive for COVID-19 (PCR Test Positive) based on symptoms, 
-demographics, vaccination status, and at-home test results.
 
-## Dataset
-- **822 patients** with **472 variables** each
-- Source: COVIDCARE Phase II Survey (MIT, 2021)
-- 3 files: Patient data, DEMI knowledgebase (70,983 entries), 
-  Survey dictionary
+This repository contains my final project for HAP 823: Causal Analysis & Comparative Effectiveness. The project uses the COVIDCARE patient dataset and the DEMI knowledgebase to estimate the risk of PCR-confirmed COVID-19 using patient-reported symptoms, home-testing information, and causal/temporal ordering.
 
-## How it Works — 5 Tier System
-| Tier | Variables |
-|------|-----------|
-| Tier 0 | Demographics (age, gender, race, ethnicity) |
-| Tier 1 | Vaccination status |
-| Tier 2 | Symptoms and exposures |
-| Tier 3 | At-home test results |
-| Tier 4 | PCR lab confirmation (target) |
+The project was completed entirely in Python using a Jupyter notebook.
 
-## Machine Learning Models Used
-- **Logistic Regression** — baseline model
-- **LASSO Regression** — feature selection
-- **XGBoost / Gradient Boosting** — best performing model
-- **Markov Blanket** — identifies direct predictors of PCR
-- **Bayesian Network** — builds diagnostic network with CPT tables
+## Repository Contents
 
-## Key Features
-- Pairwise association analysis between all variables
-- Network visualization of COVID diagnostic pathways
-- Conditional Probability Tables (CPT) for Netica
-- Final COVID probability prediction function
-- McFadden pseudo R-square model evaluation
+- `notebooks/COVID_DEMI_Final_Project.ipynb`  
+  Main Jupyter notebook containing the full project workflow.
 
-## Output
-- COVID diagnostic network graph
-- Direct predictors of PCR positive result
-- Final probability: `predict_case(input_dict)` 
-  returns COVID probability for any patient
+- `data/COVIDCARE_FORSUBMISSION_MIT_CLEANED_Phase_II_2021-12-03.csv`  
+  COVIDCARE patient dataset used for analysis and prediction modeling.
 
-## Tech Stack — Deployment
-- **Python 3.12** — core language
-- **JupyterLab** — interactive notebook
-- **Docker** — containerization
-- **Azure Container Registry** — image storage
-- **Azure Container Instances** — cloud hosting
-- **GitHub Actions** — CI/CD pipeline
+- `data/COVIDCARE_DEMI_knowledgebase_v4.csv`  
+  DEMI knowledgebase file used to analyze relationships between variables.
 
-## Live Demo
-http://covid-prediction-app.eastus.azurecontainer.io:8888
+- `requirements.txt`  
+  Python libraries needed to run the notebook.
 
-## Libraries Used
-- pandas, numpy — data processing
-- scikit-learn — ML models
-- xgboost — boosting model
-- matplotlib, networkx — visualization
-- jupyterlab — notebook environment
+## Project Workflow
+
+The notebook includes the following steps:
+
+1. Loading the COVIDCARE patient dataset and DEMI knowledgebase
+2. Creating an analytic dataset with known PCR results
+3. Assigning variables to temporal tiers
+4. Applying temporal rules to the DEMI knowledgebase
+5. Calculating association measures
+6. Preparing model-ready data
+7. Creating interaction terms from symptom and home-testing variables
+8. Comparing logistic regression, LASSO logistic regression, and gradient boosting
+9. Creating an interactive COVID prediction function
+
+## Results Summary
+
+The original dataset included 822 patient records and 472 variables. After excluding records with missing PCR results, the analytic dataset included 559 patients: 501 PCR-negative cases and 58 PCR-positive cases.
+
+Three models were compared: logistic regression, LASSO logistic regression, and gradient boosting. Gradient Boosting performed best overall, with the highest accuracy and ROC AUC and the lowest log loss.
+
+The final notebook includes a simple interactive prediction function that allows a user to select a patient record from the test set and return the predicted probability of PCR-confirmed COVID-19, the predicted class, and the actual PCR result.
+
+## Notes
+
+This project is a notebook-based demonstration for a course assignment. It is not intended to replace clinical judgment, diagnostic testing, or medical evaluation.
 
 ## Author
-Chandana Reddy Gajjala
-George Mason University
+
+Natalie Thornock  
+George Mason University  
+Spring 2026
